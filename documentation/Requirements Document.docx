@@ -1,0 +1,128 @@
+
+Software Documentation
+for
+DRisk
+Prepared by:   
+Abhinav Mishra
+Aditya Togani
+Arpit Mathur
+Nikhil Kumar
+Vimarsh Deo
+Software Engineering
+
+
+Version	  	Author	          Date
+1	        Abhinav Mishra	  18th Oct 2015
+2	        Abhinav Mishra	  1st Nov 2015
+		
+		
+ 
+Table of Contents
+Table of Contents	ii
+1.	Executive Summary	1
+1.1	Project Overview	1
+1.2	Purpose and Scope of this specification ………………………………………………………..1
+2.	Overall Description	1
+2.1	Product Context	1
+2.2	Product Functions	1
+2.3	User Classes and Characteristics	2
+2.4	Operating Environment	2
+2.5	Design and Implementation Constraints	2
+2.6	Assumptions and Dependencies	2
+3.	Requirements	2
+3.1	Functional Requirements	2
+3.2	Usability	
+    3.3	Performance ………………………………………………………………………………..
+    3.4	Reliability… ………………………………………………………………………………..
+3.5	Manageability/Maintainability	
+    3.6	Security……………………………………………………………………………………..
+4.	User Scenario/Use cases	
+6.	Other Requirements	
+Appendix A: Glossary	
+Appendix B: Analysis Models	
+Appendix C: To Be Determined List	
+
+
+ 
+1.	Introduction
+1.1	Purpose 
+Risk is a turn-based board game, in which 2 to 6 players fight over the occupation of 42 territories in a political map, trying to achieve a secret mission that generally requires the control of the territories in the map. 
+
+The goal of this project is to develop a turn based client server Risk game, in which users play the game through a web site, and that offers high configurability, in particular: it allows users to define and upload map configurations, including not only the aesthetic aspects such as images, etc., but also specific numbers of territories and neighboring relations (and optionally stronger restrictions on the number of players); it allows for maps to automatically adjust granularity, by collapsing neighboring territories according to number of players and a user selected complexity for the game (e.g., easy, medium, hard).
+1.2	Purpose and Scope of this specification
+The purpose of this specification is to outline the requirements of D-Risk game. Moreover, this document explains the purpose of each of the individual functionalities that will be provided to the user. This document intended audience includes the developers of this web based game, as well as the interested users who will play this game.
+
+2.	Overall Description
+2.1	Product Context
+This game is just like other multiplayer games where two or more user can join together and start playing the game. This game is independent of any other products. All a user needs is client browser viz. chrome, Mozilla to connect to website and follow the instructions to join the game.
+2.2	Product Functions
+The main aim of this project is to implement all the core functionalities of the board version of the game Risk. This section of the SRS contains a brief introduction about all the major functions implemented with respect to the user’s perspective.
+
+When a user opens up the game main page, he will be presented with these major features: 
+
+•	Log In – The already existing users can directly enter the game by providing the login details
+•	Sign up – The first time users should first signup using the link provided on the homepage and then login to start the game.
+•	Game Instructions – This link provides all the rules that a user must follow to play the game.
+
+Once a user is in the game, he will have 3 major phases presented in form of button which controls all the phases of the game (A detail version of the rules and strategies is presented in the Game Instructions link of the home page):
+
+•	Deploy – When a user clicks this button he can start deploying the army in his owned territories
+•	Attack/Transfer – When a user clicks this button he can start transferring his armies to either his owned territories or to an enemy territory.
+•	Commit – When a user clicks this phase all the moves are executed and the turn is passes to the next player.
+
+The detailed project requirement and description can be found at the official SCORE project website (http://score-contest.org/2016/projects/drisk.php)
+2.3	User Classes and Characteristics
+The users of this game are expected to have a compatible browser viz. Chrome, Firefox or IE and a good enough internet connection. All the interested game playing users, who have a little idea about any strategy game can user this product.
+2.4	Operating Environment
+This product is Operating system independent and will work with virtually any system that can connect to the internet and browse web pages.
+2.5	Design and Implementation Constraints
+The development code is written in java-script and html (front end). The server side coding is done using node JS.
+2.6	Assumptions and Dependencies
+It is assumed that the user is familiar with some if the strategies game and also have some idea of probability which will be used in the attack strategies.
+
+3.	Requirements
+3.1	Functional Requirements
+Section/ Requirement ID	Requirement Definition	
+FR 1	Implementation of the home page of the game
+FR 2	Implementation of the login/sing-up page
+FR 3	Implementation of other link such as game instructions and query submission.
+FR 4	The user can choose the number of  players (2-6)
+FR 5	The user can choose the complexity of the game
+FR 6	The game shall start with one preloaded standard Risk map with 42 territories. 
+FR 7	The user can control the various phases of the game
+FR 8	The user should not see other user’s details such as password or any other specific information
+FR 9 	The user should have an option to upload a map
+FR 10	The user should have an option to specify neighboring relations
+
+3.2	Usability
+UR 1	The user can start the game in Google Chrome
+UR 2	The user can start the game in Firefox
+UR 3	The user can start the game in IE
+
+3.3	Performance
+PR 1	The database can store large user details
+PR 2	The game can support simultaneous games
+PR 3	The game launches the map as soon as the game starts
+PR 4	The map contents get updated as soon as the player finishes his moves
+PR 5	The server can support multiple request at once i.e. related to game details or any other website access.
+
+3.4	Reliability
+RR 1	The user gets to proper html pages once they click on the respective links
+RR 2	The game data shared across one game instance is same for all the players in that game instance
+
+
+4.	Use Case Scenario/ Use cases
+UR 1	
+	
+	
+	
+
+5.	Other Requirements
+<To be written.>
+Appendix A: Glossary
+<To be written.>
+Appendix B: Analysis Models
+<To be written.>
+Appendix C: To Be Determined List
+<To be written.>
+

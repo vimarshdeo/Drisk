@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Drisk</title>
+    <script src="js/raphael-min.js"></script>
+    <link rel="stylesheet" href="css/demo.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/demo-print.css" type="text/css" media="print" />
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/gameDetails.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/map.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/fileManager.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+
+    <style type="text/css" media="screen">
+        #canvas {
+            display: none;
+	    height: 768px;
+            position: absolute;
+            width: 1366px;
+        }
+
+        #paper {
+            height: 300px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 300px;
+        }
+
+        #Alaska,
+        #NorthWestTerritory,
+        #Alberta,
+        #Ontario,
+        #Greenland,
+        #Quebec,
+        #WesternUnitedStates,
+        #EasternUnitedStates,
+        #CentralAmerica,
+        #Peru,
+        #Brazil,
+        #Venezuela,
+        #Argentina,
+        #NorthAfrica,
+        #Egypt,
+        #Congo,
+        #EastAfrica,
+        #SouthAfrica,
+        #Iceland,
+        #GreatBritain,
+        #WesternEurope,
+        #NorthernEurope,
+        #SouthernEurope,
+        #Scandinavia,
+        #Madagascar,
+        #Ukraine,
+        #MiddleEast,
+        #Afghanistan,
+        #Ural,
+        #India,
+        #Siam,
+        #China,
+        #Mongolia,
+        #Irkutsk,
+        #Yakutsk,
+        #Siberia,
+        #Kamchatka,
+        #Japan,
+        #Indonesia,
+        #NewGuinea,
+        #WesternAustralia,
+        #EasternAustralia {
+            display: none;
+            height: 400px;
+            overflow: auto;
+            position: fixed;
+            left: 30px;
+            top: 360px;
+            width: 260px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .sidebar {
+            width: 260px;
+            height: 550px;
+            position: fixed;
+            left: 20px;
+            top: 50px;
+            border-style: solid;
+            border-width: 5px;
+            border-color: gray;
+        }
+        #overlay {
+            width:100%;
+            height: 100%;
+            position:absolute;
+            top:0;
+            left: 0;
+            background-color:#111;
+            z-index:2000;
+        }
+
+        #overlay>img {
+            position: absolute;
+            top: 50%;
+            left:50%;
+            margin: -135px 0 0 -140px;
+            z-index:2001;
+        }
+		
+		#soundbar {
+			position: fixed;
+			bottom: 0px;
+			right: 20px;
+		}
+		#chat{
+			height:500px;
+		}
+		#contentWrap{
+			display: none;
+		}
+		#chatWrap{
+			float: left;
+			border: 1px #000 solid;
+		}
+		.error{
+			color: red;
+		}
+		.whisper{
+			color: gray;
+			font-style: italic;
+		}
+    </style>
+
+</head>
+
+<body>
+<div id="nickWrap">
+		<p>Enter a username:</p>
+		<p id="nickError"></p>
+		<form id="setNick">
+			<input size="35" id="nickname"></input>
+			<input type="submit"></input>
+		</form>
+	</div>
+
+	<div id="contentWrap">
+		<div id="chatWrap">
+			<div id="chat"></div>
+			<form id="send-message">
+				<input size="35" id="message"></input>
+				<input type="submit"></input>
+			</form>
+		</div>
+		<div id="users"></div>
+
+<button id="button10" style="color: black; background-color:white; width:100px; height:75px" type="button" >Start Game</button>		
+
+	</div>
+
+<script>
+		jQuery(function($){
+			var socket = io.connect();
+			var $nickForm = $('#setNick');
+			var $nickError = $('#nickError');
+			var $nickBox = $('#nickname');
+			var $users = $('#users');
+			var $messageForm = $('#send-message');
+			var $messageBox = $('#message');
+			var $chat = $('#chat');
+			
+			$nickForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('new user', $nickBox.val(), function(data){
+					if(data){
+						$('#nickWrap').hide();
+						$('#contentWrap').show();
+					} else{
+						$nickError.html('That username is already taken!  Try again.');
+					}
+				});
+				$nickBox.val('');
+			});
+			
+			socket.on('usernames', function(data){
+				var html = '';
+				for(i=0; i < data.length; i++){
+					html += data[i] + '<br/>'
+				}
+				$users.html(html);
+			});
+			
+			$messageForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('send message', $messageBox.val(), function(data){
+					$chat.append('<span class="error">' + data + "</span><br/>");
+				});
+				$messageBox.val('');
+			});
+			
+			socket.on('new message', function(data){
+				$chat.append('<span class="msg"><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
+			});
+			
+			socket.on('whisper', function(data){
+				$chat.append('<span class="whisper"><b>' + data.nick + ': </b>' + data.msg + "</span><br/>");
+			});
+		});
+	
+$(document).ready(function() {
+    $("#button10").click(function(){
+         $('#contentWrap').hide();
+	 $('#canvas').show();
+    }); 
+});
+</script>			
+
+
+<div id="overlay">
+    <img src="img/loading.gif">
+</div>
+
+<div id="canvas">
+<audio id="sounddeploy" src="sound/3.mp3"></audio>
+<audio id="soundattack" src="sound/2.mp3"></audio>
+<audio id="soundattacked" src="sound/4.mp3"></audio>
+
+    <div id="paper"></div>
+
+    <div class='sidebar'>
+        <h2>GAME OPTIONS</h2>
+        <ul>
+            <div id="DIVbtns">
+                <button id="button1" style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="deploy(this.id);">Deploy</button>
+                <br>
+                <br>
+                <button id="button2" style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="attack(this.id);">Attack</button>
+                <br>
+                <br>
+                <button id="button3" style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="commit(this.id)">Commit</button>
+                <br>
+                <br>
+                <button id="button4" style="color: orange; background-color:white" type="button" onclick="reset()">Begin Phase</button>
+                <button id="button5" style="color: orange; background-color:white" type="button" onclick="next()">Next Phase</button>
+                <br>
+                <br>
+            </div>
+        </ul>
+
+        <div id = "hello"></div>
+
+        <div id="Alaska"></div>
+        <div id="NorthWestTerritory"></div>
+        <div id="Alberta"></div>
+        <div id="Ontario"></div>
+        <div id="Greenland"></div>
+        <div id="Quebec"></div>
+        <div id="WesternUnitedStates"></div>
+        <div id="EasternUnitedStates"></div>
+        <div id="CentralAmerica"></div>
+        <div id="Peru"></div>
+        <div id="Brazil"></div>
+        <div id="Venezuela"></div>
+        <div id="Argentina"></div>
+        <div id="NorthAfrica"></div>
+        <div id="Egypt"></div>
+        <div id="Congo"></div>
+        <div id="EastAfrica"></div>
+        <div id="SouthAfrica"></div>
+        <div id="Iceland"></div>
+        <div id="GreatBritain"></div>
+        <div id="WesternEurope"></div>
+        <div id="NorthernEurope"></div>
+        <div id="SouthernEurope"></div>
+        <div id="Scandinavia"></div>
+        <div id="Madagascar"></div>
+        <div id="Ukraine"></div>
+        <div id="MiddleEast"></div>
+        <div id="Afghanistan"></div>
+        <div id="Ural"></div>
+        <div id="India"></div>
+        <div id="Siam"></div>
+        <div id="China"></div>
+        <div id="Mongolia"></div>
+        <div id="Irkutsk"></div>
+        <div id="Yakutsk"></div>
+        <div id="Siberia"></div>
+        <div id="Kamchatka"></div>
+        <div id="Japan"></div>
+        <div id="Indonesia"></div>
+        <div id="NewGuinea"></div>
+        <div id="WesternAustralia"></div>
+        <div id="EasternAustralia"></div>
+    
+	</div>
+
+<div id = "soundbar">
+        <audio id = "player" src="sound/1.mp3" loop="true" autoplay="true" ></audio>
+        <button onclick="document.getElementById('player').play()">Play</button>
+    <button onclick="document.getElementById('player').pause()">Pause</button>
+    <button onclick="document.getElementById('player').muted=!document.getElementById('player').muted">Mute/ Unmute</button>
+</div>
+
+</div>
+</div>
+</body>
+
+</html>

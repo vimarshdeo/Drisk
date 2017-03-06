@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Drisk</title>
+    <script src="js/raphael-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Londrina%20Solid">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald">
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/demo.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/demo-print.css" type="text/css" media="print" />
+	<link rel="stylesheet" href="css/button.css" type="text/css" />
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script src="js/jquery.noty.packaged.min.js"></script>
+    <script src="js/jquery.tabSlideOut.v1.3.js"></script>
+    <script src="js/gameCreator.js"></script>
+    <script src="js/gameDetails.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/map.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/fileManager.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+
+    <style type="text/css" media="screen">
+		@keyframes anim1 {
+		from {
+			margin-left: 0px; 
+		}
+
+		to {
+			margin-left: 340px;
+			}
+		}
+		@keyframes anim2 {
+		from {
+			margin-left: 0px; 
+		}
+
+		to {
+			margin-left: 340px;
+			}
+		}
+		
+		#HomeScreenWrapper {
+			left: 20px
+			top: 20px;
+			border-radius: 50px;
+			border: 10px solid #ff3300;
+			padding: 40px; 
+			width: 300px;
+			height: 450px; 
+			
+		}
+		#CreateScreenWrapper{
+			margin-left: 340px
+			top: 20px;
+			border-radius: 50px;
+			border: 10px solid #0000FF;
+			padding: 40px; 
+			width: 300px;
+			height: 450px;
+			animation-name: anim1;
+			animation-duration: 4s;
+		}
+		#LobbyScreenWrapper{
+			top: 20px;
+			border-radius: 50px;
+			border: 10px solid #008000;
+			padding: 40px; 
+			width: 300px;
+			height: 450px;
+			animation-name: anim1;
+			animation-duration: 4s;
+		}
+        #canvas {
+
+            height: 768px;
+            position: fixed;
+            width: 1366px;
+        }
+
+        #paper {
+            height: 300px;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 300px;
+        }
+
+        #Alaska,
+        #NorthWestTerritory,
+        #Alberta,
+        #Ontario,
+        #Greenland,
+        #Quebec,
+        #WesternUnitedStates,
+        #EasternUnitedStates,
+        #CentralAmerica,
+        #Peru,
+        #Brazil,
+        #Venezuela,
+        #Argentina,
+        #NorthAfrica,
+        #Egypt,
+        #Congo,
+        #EastAfrica,
+        #SouthAfrica,
+        #Iceland,
+        #GreatBritain,
+        #WesternEurope,
+        #NorthernEurope,
+        #SouthernEurope,
+        #Scandinavia,
+        #Madagascar,
+        #Ukraine,
+        #MiddleEast,
+        #Afghanistan,
+        #Ural,
+        #India,
+        #Siam,
+        #China,
+        #Mongolia,
+        #Irkutsk,
+        #Yakutsk,
+        #Siberia,
+        #Kamchatka,
+        #Japan,
+        #Indonesia,
+        #NewGuinea,
+        #WesternAustralia,
+        #EasternAustralia {
+            display: none;
+            height: 400px;
+            overflow: auto;
+            position: fixed;
+            left: 30px;
+            top: 550px;
+            width: 260px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        .sidebar {
+            color: maroon;
+            border-color: maroon;
+            border-radius: 25px;
+            border: 5px solid maroon;
+            width: 300px;
+            height: 648px;
+            position: fixed;
+            left: 10px;
+            top: 10px;
+        }
+        hr {
+            color: maroon;
+            background-color: maroon;
+            height: 2px;
+            width: 299px;
+            border-color: maroon;
+        }
+
+        #overlay {
+            width:100%;
+            height: 100%;
+            position:relative;
+            background-color:#111;
+            z-index:2000;
+        }
+
+        #overlay>img {
+            position: fixed;
+            top: 50%;
+            left:50%;
+            margin: -135px 0 0 -140px;
+            z-index:2001;
+        }
+        #turnIndicator{
+            position: fixed;
+            bottom: 10px;
+            right: 600px;
+        }
+
+        #soundbar {
+            position: fixed;
+            bottom: 0px;
+            right: 20px;
+        }
+        #chat{
+            left: 0px;
+            top:20px;
+            height:400px;
+            width: 250px;
+        }
+        #chatWrap{
+            background: #ccc;
+            border: 1px solid #29216d;
+        }
+        .slide-out-div {
+            padding: 20px;
+            width: 200px;
+            background: #ccc;
+            border: 1px solid #29216d;
+        }
+        #popup{
+            text-align: center;
+            top: 0px;
+            font-family: 'Londrina Solid', serif;
+            font-size: 25px;
+            color: black;
+            font-weight: bold;
+
+
+        }
+        #turnIndicator{
+            text-align: center;
+            font-family: 'Tangerine', serif;
+            font-size: 48px;
+            color: black;
+            font-weight: bold;
+        }
+        #actionInfo{
+            font-family: 'Londrina Solid', serif;
+            font-size: 14px;
+            color: darkred;
+            font-weight: bold;
+            scroll: auto;
+            height: 100px;
+            left:4px;
+        }
+        #stages {
+            text-align: center;
+            font-family: 'Londrina Solid', serif;
+            font-size: 20px;
+            color: Black;
+            font-weight: bold;
+        }
+        #actions {
+            text-align: center;
+            font-family: 'Londrina Solid', serif;
+            font-size: 20px;
+            color: black;
+            font-weight: bold;
+        }
+        #playerdetails {
+            text-align: center;
+            font-family: 'Londrina Solid', serif;
+            font-size: 20px;
+            color: black;
+            font-weight: bold;
+        }
+        #console {
+            text-align: center;
+            top: 0px;
+            font-family: 'Londrina Solid', serif;
+            font-size: 20px;
+            color: black;
+            font-weight: bold;
+        }
+        #user1details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+
+        }
+        #user2details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        #user3details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        #user4details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        #user5details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        #user6details{
+            text-align: center;
+            top: 0px;
+            font-family: 'Oswald', serif;
+            font-size: 16px;
+            color: maroon;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        #Error1 {
+          color: red;
+        }
+        #Error2 {
+          color: red;
+        }
+        #Error3 {
+          color: red;
+        }
+
+    </style>
+
+
+    <script type="text/javascript">
+        $(function(){
+            $('.slide-out-div').tabSlideOut({
+                tabHandle: '.handle',
+                pathToTabImage: 'img/CHAT.png',
+                imageHeight: '300px',
+                imageWidth: '40px',
+                tabLocation: 'right',
+                speed: 300,
+                action: 'click',
+                topPos: '30px',
+                leftPos: '20px',
+                fixedPosition: false
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+<div style="float: left; width: 40px;" >
+	<br />
+	
+</div>
+<div id="HomeScreenWrapper" style="float: left;" >	
+    Nickname:<br />
+	<input id = "name" type="text" name="usrname" required>
+	<div id ="Error1"> </div>
+    <br />
+    <br />
+    <input id="btnCreateSubmit" type="submit" value="Create Game" />
+    <br />
+    <br />
+    Already have game id, Enter Game id !             
+	<br />
+    <br />
+    Nickname:<br />
+	<input type="text" name="name" id = "name2" required/>
+	<div id ="Error2"> </div><br> <br>
+    Game Id:<br />
+	<input type="text" name="gameid" id = "enteredgameid" required />
+	<div id ="Error3"> </div>
+    <br />
+    <br />
+    <input id="btnJoinSubmit" type="submit" value="Join Game" />
+    <br />
+    <br />
+</div>
+
+<div style="float: left; width: 30px;" >
+	<br />
+	
+</div>
+<div id="CreateScreenWrapper" style="float: left; display: none;">
+
+    <div id="welcome"> Hi </div>
+    <div id="gameid">New game id created: </div>
+    <br />
+    Invite Friends to join the game, Enter their email id's below:<br />
+    <br />
+    Player 1 email:<br />
+	<input type="text" id="user1email" />
+    <br />
+    <br />
+    Player 2 email:<br />
+	<input type="text" id="user2email" />
+    <br />
+    <br />
+    Player 3 email:<br />
+	<input type="text" id="user3email" />
+    <br />
+    <br />
+    Player 4 email:<br />
+	<input type="text" id="user4email" />
+    <br />
+    <br />
+    Player 5 email:<br />
+	<input type="text" id="user5email" />
+    <br />
+    <br />
+    <input id="btnJoinLobby" type="submit" value="Join Game" />
+</div>
+
+<div style="float: left; width: 30px;" >
+	<br />
+	
+</div>
+<div id="LobbyScreenWrapper" style="float: left; display: none;">
+    <div id="displayjoinedplayers"> Waiting for all players to join.<br></div>
+    <input id="btnStartGame" style="display: none;" type="submit" value="StartGame" />
+</div>
+
+<div id="overlay">
+    <img src="img/loading.gif">
+</div>
+
+<div id="GameOver" style="display: none;">Game Over !!! Winner of the game is : </div>
+
+
+<div id = "CanvasWrapper" style="display: none;">
+
+<div id="canvas">
+
+
+
+<audio id="sounddeploy" src="sound/3.mp3"></audio>
+<audio id="soundattack" src="sound/2.mp3"></audio>
+<audio id="soundattacked" src="sound/4.mp3"></audio>
+
+    <div id="paper"></div>
+    <!--
+    <div class="slide-out-div">
+        <a class="handle" href="http://link-for-non-js-users.html">Content</a>
+        <div id="chatWrap">
+            <div id="chat"></div>
+            <form id="send-message">
+                <input size="20" id="message"></input>
+                <input type="submit"></input>
+            </form>
+        </div>
+    </div>
+    -->
+
+
+    <div id = "turnIndicator"></div>
+    <div class='sidebar'>
+        <div id = "console"> CONSOLE
+            <hr />
+            <div id = "popup"></div>
+        </div>
+        <hr />
+      <div id = "stages"> STAGES</div><hr />
+
+
+            <div id="DIVbtns">
+                <center>
+                <button id="button1"     style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="deploy(this.id);">Deploy</button>
+                <br><br>
+                <button id="button2" style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="attack(this.id);">Attack</button>
+                <br><br>
+                <button id="button3" style="color: black; background-color:white; width:75px; height:25px" type="button" onclick="commit(this.id)">Execute</button>
+                <br>
+                    </center>
+
+               <!-- <button id="button4" style="color: orange; background-color:white" type="button" onclick="reset()">Begin Phase</button>
+<button id="button5" style="color: orange; background-color:white" type="button" onclick="next()">Next Phase</button>
+
+-->
+            </div>
+
+        <hr><div id = "actions">ACTIONS</div><hr>
+
+    <div id="actionInfo" style="font-family: 'Oswald', serif; overflow:auto; height:180px; left: 22px; width: 300px"></div><hr>
+        <div id = "hello"></div>
+        <div id = "playerdetails">PLAYER DETAILS<hr>
+            <div id = "user1details" style = "float: left"></div>
+            <div id = "user3details"style = "float: left"></div>
+            <div id = "user5details" style = "float:left"></div> <br>
+            <div id = "user2details"style = "float: left"></div>
+            <div id = "user4details"style = "float: left"></div>
+            <div id = "user6details" style = "float:left"></div> <br>
+            </div>
+        </div>
+    </div>
+        <div id="Alaska"></div>
+        <div id="NorthWestTerritory"></div>
+        <div id="Alberta"></div>
+        <div id="Ontario"></div>
+        <div id="Greenland"></div>
+        <div id="Quebec"></div>
+        <div id="WesternUnitedStates"></div>
+        <div id="EasternUnitedStates"></div>
+        <div id="CentralAmerica"></div>
+        <div id="Peru"></div>
+        <div id="Brazil"></div>
+        <div id="Venezuela"></div>
+        <div id="Argentina"></div>
+        <div id="NorthAfrica"></div>
+        <div id="Egypt"></div>
+        <div id="Congo"></div>
+        <div id="EastAfrica"></div>
+        <div id="SouthAfrica"></div>
+        <div id="Iceland"></div>
+        <div id="GreatBritain"></div>
+        <div id="WesternEurope"></div>
+        <div id="NorthernEurope"></div>
+        <div id="SouthernEurope"></div>
+        <div id="Scandinavia"></div>
+        <div id="Madagascar"></div>
+        <div id="Ukraine"></div>
+        <div id="MiddleEast"></div>
+        <div id="Afghanistan"></div>
+        <div id="Ural"></div>
+        <div id="India"></div>
+        <div id="Siam"></div>
+        <div id="China"></div>
+        <div id="Mongolia"></div>
+        <div id="Irkutsk"></div>
+        <div id="Yakutsk"></div>
+        <div id="Siberia"></div>
+        <div id="Kamchatka"></div>
+        <div id="Japan"></div>
+        <div id="Indonesia"></div>
+        <div id="NewGuinea"></div>
+        <div id="WesternAustralia"></div>
+        <div id="EasternAustralia"></div>
+    
+	</div>
+
+
+
+<div id = "soundbar">
+<menu class="medium">	
+    <audio id = "player" src="sound/1.mp3" loop="true" autoplay="true" ></audio>
+    <button id = "playbtn" class="play" onclick="document.getElementById('player').play()"><img src="images/play-button.png" height="35"/></button>
+    <button id = "playbtn" class="pause" onclick="document.getElementById('player').pause()"><img src="images/pause.png" height="35"/></button>
+    <button id = "playbtn" class="stop" onclick="document.getElementById('player').muted=!document.getElementById('player').muted"><img src="images/mute.png" height="35"/></button>
+</div>
+</menu>
+
+
+</div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+Template Name: Splash
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+<title>Splash | Pages | Full Width</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body id="top">
+<!-- JAVASCRIPTS -->
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
+<!-- IE9 Placeholder Support -->
+<script src="../layout/scripts/jquery.placeholder.min.js"></script>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row1">
+  <header id="header" class="clear">
+    <div id="logo" class="fl_left"> 
+      <!-- ################################################################################################ -->
+      <h1><a href="../index.html">D-Risk</a></h1>
+      <!-- ################################################################################################ -->
+    </div>
+    <nav id="mainav" class="fl_right">
+      <ul class="clear">
+        <!-- ################################################################################################ -->
+        <li><a href="../index.html">Home</a></li>
+		<li><a href="rules.html">Game Instructions</a></li>
+		<li><a href="aboutUs.html">About us</a></li>
+		<li><a href="sidebar-left.html">Timeline</a></li>
+		<li><a href="login.html">Login</a></li>
+		<li class="active"><a href="signup.html">Sign up</a></li>
+        <!-- ################################################################################################ -->
+      </ul>
+    </nav>
+  </header>
+</div><!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!--<div class="wrapper row2">
+  <div id="breadcrumb" class="clear"> 
+    <!-- ################################################################################################ -->
+    <!--<ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Lorem</a></li>
+      <li><a href="#">Ipsum</a></li>
+      <li><a href="#">Dolor</a></li>
+    </ul>
+    <!-- ################################################################################################ -->
+  <!--</div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+<div class="wrapper row3">
+  <main class="container clear"> 
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+    <div class="content"> 
+      <!-- ################################################################################################ -->
+        
+			<center>
+			<div id="login-form">
+			<form id="form-name" >
+			<table align="center" width="30%" border="0">
+			<tr>
+			<td><input type="text" id="uname" placeholder="User Name" required /></td>
+			</tr>
+			<tr>
+			<td><input type="email" id="email" placeholder="Your Email" required /><br>
+			<div id = "existerr" style ="display: none; color:red; margin-top:0px"> Email id already registered !!</div>
+			</td>
+			</tr>
+			<tr>
+			<td><input type="password" id="pass" placeholder="Your Password" required /></td>
+			</tr>
+			<tr>
+			<td><button type="submit" name="btn-signup">Sign Me Up</button></td>
+			</tr>
+			<tr>
+			<td><a href="login.html">Sign In Here</a></td>
+			</tr>
+			</table>
+			</form>
+			</div>
+			</center>		
+      </div>
+      <!-- ################################################################################################ -->
+    </div>
+	<script>
+		jQuery(function($){
+				var socket = io.connect();
+			var $messageForm = $('#form-name');
+			var $name = $('#uname');
+			var $email = $('#email');
+			var $pass = $('#pass');
+			
+			$messageForm.submit(function(e){
+				e.preventDefault();
+				socket.emit('send message', {"name":$name.val(), "email":$email.val(), "pass":$pass.val()});
+				$name.val('');
+				$email.val('');
+				$pass.val('');
+			});
+			
+			socket.on('new message', function(data){
+				if(data == "successfully registered"){
+				$('#existerr').hide();
+				window.location.href = "login.html";
+				}
+				else if(data == "Already Exist"){
+					$('#existerr').show();
+					/*alert('Email ID Already registered!!');*/
+				}
+				else{
+				alert("Error!!!")}
+			});
+		
+		});
+		
+	</script>
+	
+    <!-- ################################################################################################ -->
+    <!-- / main body -->
+    <div class="clear"></div>
+  </main>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row4">
+  <footer id="footer" class="clear"> 
+    <!-- ################################################################################################ -->
+    <div class="one_quarter first">
+      <h6 class="title">D-Risk</h6>
+      <address class="btmspace-15">
+      Team name : Inferno<br>
+      Members:<br>
+      Abhinav Mishra<br>
+	  Aditya Togani<br>
+	  Arpit Mathur<br>
+	  Nikhil Kumar<br>
+	  Vimarsh Deo
+      </address>
+    </div>
+    <div class="one_quarter">
+      <h6 class="title">About D-Risk</h6>
+      <ul class="nospace linklist">
+        <li><a href="#">A Strategy based game</a></li>
+        <li><a href="#">Implemented as a web based game</a></li>
+        <li><a href="#">Creted by students of Arizona State University</a></li>
+      </ul>
+    </div>
+    <div class="one_quarter">
+      <h6 class="title">Contact Details</h6>
+      <ul class="nospace linklist">
+        <li><a href="#">abhinav.mishra.1@asu.edu</a></li>
+        <li><a href="#"></a>atogani@asu.edu</li>
+        <li><a href="#"></a>amathu18@asu.edu</li>
+		<li><a href="#"></a>nkumar43@asu.edu</li>
+		<li><a href="#"></a>vdev1@asu.edu</li>
+      </ul>
+    </div>
+    <div class="one_quarter">
+      <h6 class="title">Have a query?</h6>
+      <form action="pages/query.html">
+        <fieldset>
+          <legend>Newsletter:</legend>
+          <input class="btmspace-15" type="text" value="" placeholder="Name">
+          <input class="btmspace-15" type="text" value="" placeholder="Email">
+          <button type="submit" value="submit" href="pages/query.html">Submit</button>
+        </fieldset>
+      </form>
+    </div>
+    <!-- ################################################################################################ -->
+  </footer>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper row5">
+  <div id="copyright" class="clear"> 
+    <!-- ################################################################################################ -->
+    <p class="fl_left">Copyright &copy; 2015 - All Rights Reserved - <a href="#">Created by Team Inferno</a></p>
+    <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
+    <!-- ################################################################################################ -->
+  </div>
+</div>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a> 
+<!-- JAVASCRIPTS -->
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
+<!-- IE9 Placeholder Support -->
+<script src="../layout/scripts/jquery.placeholder.min.js"></script>
+<!-- / IE9 Placeholder Support -->
+</body>
+</html>
